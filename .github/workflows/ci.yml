@@ -13,9 +13,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - pair:
-              elixir: "1.13"
-              otp: "24.3.4.10"
+          # - pair:
+          #     elixir: "1.13"
+          #     otp: "24.3.4.10"
           - pair:
               elixir: "1.17"
               otp: "27.0.1"
