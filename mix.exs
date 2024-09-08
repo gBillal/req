@@ -14,10 +14,12 @@ defmodule Req.MixProject do
       package: package(),
       docs: docs(),
       aliases: [
-        "test.all": ["test --include integration"]
+        "test.all": ["test --include integration"],
+        ci: ci()
       ],
       preferred_cli_env: [
         "test.all": :test,
+        ci: :test,
         docs: :docs,
         "hex.publish": :docs
       ],
@@ -123,5 +125,33 @@ defmodule Req.MixProject do
 
   def legacy_headers_as_lists? do
     Application.get_env(:req, :legacy_headers_as_lists, false)
+  end
+
+  defp ci do
+    github? = is_binary(System.get_env("GITHUB_REPOSITORY"))
+
+    commands =
+      [
+        "deps.get --check-locked",
+        "deps.unlock --check-unused",
+        "format --check-formatted",
+        "deps.compile",
+        "compile --no-optional-deps --force --warnings-as-errors",
+        "compile --force --warnings-as-errors",
+        "test --slowest 5 --warnings-as-errors"
+      ]
+
+    for command <- commands do
+      [task | args] = OptionParser.split(command)
+
+      if github? do
+        IO.puts "::group::#{command}"
+        Mix.Task.rerun(task, args)
+        IO.puts "::endgroup::"
+      else
+        IO.puts("=> running mix #{command}")
+        Mix.Task.rerun(task, args)
+      end
+    end
   end
 end

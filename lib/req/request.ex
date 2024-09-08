@@ -847,7 +847,7 @@ defmodule Req.Request do
     deprecated = [:method, :url, :headers, :body, :adapter]
 
     options =
-      case deprecated -- deprecated -- Keyword.keys(options) do
+      case deprecated -- (deprecated -- Keyword.keys(options)) do
         [] ->
           options
 
