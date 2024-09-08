@@ -144,13 +144,15 @@ defmodule Req.MixProject do
     for command <- commands do
       [task | args] = OptionParser.split(command)
 
-      if github? do
-        IO.puts "::group::#{command}"
-        Mix.Task.rerun(task, args)
-        IO.puts "::endgroup::"
-      else
-        IO.puts("=> running mix #{command}")
-        Mix.Task.rerun(task, args)
+      fn _ ->
+        if github? do
+          IO.puts("::group::#{command}")
+          Mix.Task.rerun(task, args)
+          IO.puts("::endgroup::")
+        else
+          IO.puts("=> running mix #{command}")
+          Mix.Task.rerun(task, args)
+        end
       end
     end
   end
