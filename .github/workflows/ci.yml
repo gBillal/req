@@ -9,19 +9,13 @@ jobs:
       MIX_ENV: test
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - pair:
-              elixir: "1.17"
-              otp: "27.0.1"
-            lint: lint
     steps:
       - uses: actions/checkout@v4
 
       - uses: erlef/setup-beam@main
         with:
-          otp-version: ${{ matrix.pair.otp }}
-          elixir-version: ${{ matrix.pair.elixir }}
+          otp-version: "27.0.1"
+          elixir-version: "1.17"
           version-type: strict
 
       - run: mix ci
