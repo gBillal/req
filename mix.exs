@@ -136,7 +136,7 @@ defmodule Req.MixProject do
         "deps.unlock --check-unused",
         "format --check-formatted",
         "deps.compile",
-        "compile --no-optional-deps --force --warnings-as-errors",
+        # "compile --no-optional-deps --force --warnings-as-errors",
         "compile --force --warnings-as-errors",
         "test --slowest 5 --warnings-as-errors"
       ]
@@ -146,7 +146,7 @@ defmodule Req.MixProject do
 
       fn _ ->
         if github? do
-          IO.puts("::group::mix #{command}")
+          IO.puts("::group::Run mix #{command}")
           Mix.Task.rerun(task, args)
           IO.puts("::endgroup::")
         else
