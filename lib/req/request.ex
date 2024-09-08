@@ -848,7 +848,7 @@ defmodule Req.Request do
     list = deprecated -- Keyword.keys(options)
 
     options =
-      case deprecated -- unused do
+      case deprecated -- list do
         [] ->
           options
 
