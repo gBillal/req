@@ -146,7 +146,7 @@ defmodule Req.MixProject do
 
       fn _ ->
         if github? do
-          IO.puts("::group::#{command}")
+          IO.puts("::group::mix #{command}")
           Mix.Task.rerun(task, args)
           IO.puts("::endgroup::")
         else
