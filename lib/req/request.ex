@@ -845,9 +845,10 @@ defmodule Req.Request do
   def merge_options(%Req.Request{} = request, options) when is_list(options) do
     # TODO: remove on v0.5
     deprecated = [:method, :url, :headers, :body, :adapter]
+    list = deprecated -- Keyword.keys(options)
 
     options =
-      case deprecated -- (deprecated -- Keyword.keys(options)) do
+      case deprecated -- unused do
         [] ->
           options
 
